@@ -36,11 +36,18 @@ endif
 PROGRAMS = RF24Mesh_Example_Master RF24Mesh_Example
 SOURCES = ${PROGRAMS:=.cpp}
 
-all: ${PROGRAMS}
+socket_client.o:
+	$(CC) -c socket_client.cpp -o socket_client.o
+
+
+all: ${PROGRAMS} main_socket_client
+
+main_socket_client: socket_client.o
+	$(CC) main_socket_client.cpp socket_client.o -o main_socket_client
 
 ${PROGRAMS}: ${SOURCES}
 	mkdir -p bin
-	$(CC) ${CCFLAGS} -Wall -I../ -lrf24-bcm -lrf24network -lrf24mesh $@.cpp -o bin/$@
+	$(CC) ${CCFLAGS} socket_client.o -Wall -I../ -lrf24-bcm -lrf24network -lrf24mesh $@.cpp -o bin/$@
 
 clean:
 	rm -rf $(PROGRAMS)

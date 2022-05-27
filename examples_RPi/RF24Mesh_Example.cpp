@@ -16,7 +16,7 @@
 #include <RF24Network/RF24Network.h>
 
 
-RF24 radio(22,0); 
+RF24 radio(RPI_V2_GPIO_P1_15,RPI_V2_GPIO_P1_24); 
 RF24Network network(radio);
 RF24Mesh mesh(radio,network);
 
@@ -27,7 +27,6 @@ int main(int argc, char** argv) {
   // Set the nodeID to 0 for the master node
   mesh.setNodeID(4);
   // Connect to the mesh
-  printf("start nodeID %d\n",mesh.getNodeID());
   mesh.begin();
   radio.printDetails();
 
